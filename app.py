@@ -10,7 +10,7 @@ resume_file = current_dir / "assests" / "resume.pdf"
 profile_pic = current_dir / "assests" / "profile_pic.png"
 
 # --- Define general information ---
-PAGE_TITLE = ""
+PAGE_TITLE = "Portfolio | Cristopher Delgado"
 PAGE_ICON = ":wave:"
 NAME = "Cristopher Delgado"
 DESCRIPTION = """
@@ -21,3 +21,12 @@ SOCIAL_MEDIA = {
     "LinkedIn": "",
     "GitHub": "", 
 }
+PROJECTS = {
+    ""
+}
+
+# Define page configuration 
+st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON)
+
+# Define portfolio title
+st.title("YES!")
