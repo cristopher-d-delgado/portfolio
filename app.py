@@ -8,14 +8,18 @@ from PIL import Image
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 css_file = current_dir / "styles" / "main.css"
 resume_file = current_dir / "assests" / "resume.pdf"
-profile_pic = current_dir / "assests" / "profile_pic.png"
+profile_pic = current_dir / "assests" / "profile_pic.jpg"
 
 # --- Define general information ---
 PAGE_TITLE = "Portfolio | Cristopher Delgado"
 PAGE_ICON = ":wave:"
 NAME = "Cristopher Delgado"
 DESCRIPTION = """
-Data Scientist, assisting in resaerch and development of medical resaerch.
+I am a Biomedical Engineer specializing in Python data analysis and machine learning. 
+My background includes domain knowledge in biosensor research and development. 
+I excel at applying advanced analytical techniques to biomedical data, driving innovation in biosensor technologies, and contributing to diagnostic research. 
+I am passionate about leveraging my analytical skills and enthusiasm for data science to transition into a data science-focused role. 
+My experience in biomedical engineering equips me with a unique perspective and a robust toolkit for tackling complex data-driven challenges.
 """
 EMAIL = "cristopher.d.delgado@gmail.com"
 SOCIAL_MEDIA = {
@@ -34,7 +38,7 @@ st.title("YES!")
 
 # --- LOAD CSS, PDF, & PROFILE PIC ---
 with open(css_file) as f:
-    st.markdown(f"<style>{}</style>".format(f.read()), unsafe_allow_html=True)
+    st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
 with open(resume_file, "rb") as pdf_file:
     PDFbyte = pdf_file.read()
@@ -51,8 +55,8 @@ with col2:
     st.title(NAME)
     st.write(DESCRIPTION)
     st.download_button(
-        label=":page_facing_up: Download Resume"
-        data=PDFbyte
+        label=":page_facing_up: Download Resume",
+        data=PDFbyte,
         file_name=resume_file.name,
         mime="application/octet-stream"
     )
