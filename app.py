@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from altair import Description
 import streamlit as st
 from PIL import Image
 
