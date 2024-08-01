@@ -14,11 +14,8 @@ PAGE_TITLE = "Portfolio | Cristopher Delgado"
 PAGE_ICON = ":wave:"
 NAME = "Cristopher Delgado"
 DESCRIPTION = """
-I am a Biomedical Engineer specializing in Python data analysis and machine learning. 
-My background includes domain knowledge in biosensor research and development. 
-I excel at applying advanced analytical techniques to biomedical data, driving innovation in biosensor technologies, and contributing to diagnostic research. 
-I am passionate about leveraging my analytical skills and enthusiasm for data science to transition into a data science-focused role. 
-My experience in biomedical engineering equips me with a unique perspective and a robust toolkit for tackling complex data-driven challenges.
+Biomedical Engineer specializing in data analysis and machine learning.
+Driven in pursuing research and development of biomedical biosensing applications and diagnostics.
 """
 EMAIL = "cristopher.d.delgado@gmail.com"
 SOCIAL_MEDIA = {
@@ -65,7 +62,7 @@ PROJECTS = {
 st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON)
 
 # Define portfolio title
-st.title("YES!")
+st.title("#")
 
 # --- LOAD CSS, PDF, & PROFILE PIC ---
 with open(css_file) as f:
@@ -164,3 +161,4 @@ for project, details in PROJECTS.items():
     st.write(f"[{project}]({details['link']})")
     for desc in details['description']:
         st.write(f"- {desc}")
+    st.write("#")
