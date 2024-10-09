@@ -51,3 +51,23 @@ EDUCATION = {
     "BS Biomedical Engineer ": "San Jose State University, May 2023",
     "Flatiron Data Science Certificate ": "Virtual"
 }
+
+WORK_HISTORY = {
+    "🧬️ Intern - Bioinformatics Data Analyst | Orlucent": {
+        "dates": "07/2023 - Present",
+        "description": [
+            "Conducted comprehensive data analysis, developed machine learning models, generated detailed reports, and provided actionable insights to support informed decision-making.",
+            "Played a key role in data understanding and data-driven solutions by drawing insights from machine learning models and making suggestions and evaluations for lesion assessment purposes.",
+            "Develop a deep understanding of startup industry dynamics and challenges while working on a confidential project."
+            "Collaborate with cross-functional teams to meet project objectives."
+        ]
+    },
+    "🧫️ Yun Wang Lab Diagnostics - Lab Member | San Jose State University": {
+        "dates": "01/2022 - 12/2023",
+        "description": [
+            "Collaborated with an interdisciplinary team to design a biosensor prototype with a microfluidic lab on chip technology in conjunction with Quantum Dots resulting in successful trials detection of Botulinum Neurotoxin Serotype A.",
+            "Conducted extensive testing of Quantum Dots for their stability and sensitivity for Botulinum Neurotoxin Detection Serotype A resulting in statistical evidence of the biosensors functionality.",
+            "Performed Reconstitution of Peptide in 10% Dimethyl Sulfoxide & Botulinum Neurotoxin in HEPES buffer required to perform biosensor testing.",
+        ]
+    }
+}
