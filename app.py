@@ -1,7 +1,9 @@
 from pathlib import Path
-import select
+import sys
 from home import EDUCATION, PAGE_TITLE, PAGE_ICON, PROJECTS, NAME, DESCRIPTION, EMAIL, SOCIAL_MEDIA, WORK_HISTORY
 import streamlit as st
+from streamlit_brain.streamlit_app import brain_classification_app
+#from streamlit_brain.predict import classify, preprocess_image
 from streamlit_option_menu import option_menu
 from PIL import Image
 
@@ -104,4 +106,6 @@ if selected == "Home":
         st.write("#")
 
 if selected == "Brain Lesion Classification":
-    st.write("Currently Under Contruction!")
+    brain_classification_app()
+else:
+    st.write("Oops did not lauch!")
