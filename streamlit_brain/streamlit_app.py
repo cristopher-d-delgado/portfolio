@@ -1,5 +1,5 @@
 import streamlit as st
-from tensorflow.keras.models import load_model
+from tensorflow.python.keras.models import load_model
 from .predict import classify, preprocess_image
 from PIL import Image
 from lime import lime_image
@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import requests
 import os
+import streamlit as st
 
 def brain_classification_app():
     # Title app

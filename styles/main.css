@@ -4,7 +4,7 @@
 
 a {
     text-decoration: none;
-    color: white !important;
+    color: rgb(1, 0, 0) !important;
     font-weight: 500;
 }
 
@@ -16,4 +16,25 @@ a:hover {
 hr {
     margin-top: 0px;
     margin-bottom: 5%;
+}
+
+button {
+    background-color: cadetblue;
+    color:floralwhite;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: turquoise !important;
+    color: black !important;
+    border-color: black !important;
+    text-decoration: solid;
+}
+
+[data-testid="stHorizontalBlock"] {
+    display: flex;
+    justify-content: center;    /* Center horizontally */
+    align-items: center;        /* Center vertically */
+    height: 100%;               /* Set as needed */
 }

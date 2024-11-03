@@ -106,6 +106,9 @@ if selected == "Home":
         st.write("#")
 
 if selected == "Brain Lesion Classification":
+    # --- LOAD CSS
+    with open(css_file) as f:
+        st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
+    
+    # Load app
     brain_classification_app()
-else:
-    st.write("Oops did not lauch!")
