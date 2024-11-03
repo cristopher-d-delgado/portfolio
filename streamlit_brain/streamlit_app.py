@@ -1,5 +1,5 @@
 import streamlit as st
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from .predict import classify, preprocess_image
 from PIL import Image
 from lime import lime_image
@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import requests
+import os
 
 def brain_classification_app():
     # Title app
@@ -19,34 +20,74 @@ def brain_classification_app():
     # Cache augemented model
     @st.cache_resource
     def load_keras_model(url, file_path):
-        """
-        url = url to request
-        filer_path = file to write to. In other words save the file to.
-        """
-        s3_url = url
+        """Downloads the model from an AWS bucket URL and loads it."""
         try:
-            # Download the model from AWS bucket
-            response = requests.get(s3_url)
-            
-            # Save the model to the file path
-            with open(file_path, 'wb') as f:
-                f.write(response.content)
-            
-            # Load the saved model
+            # Attempt to load the model from the specified file path
             loaded_model = load_model(file_path)
+            print("Model loaded successfully from local file.")
             return loaded_model
-        
         except Exception as e:
-            print(f"Error loading Keras model: {e}")
-            return None
+            print(f"Failed to load model from local file: {e}. Attempting to download.")
+            
+            # If loading fails, try downloading the model from the AWS bucket
+            try:
+                response = requests.get(url)
+                response.raise_for_status()  # Raise an error for bad responses
+                print("Response status code:", response.status_code)  # Log the status code
+                
+                # Save the model to the file path
+                with open(file_path, 'wb') as f:
+                    f.write(response.content)
+                print("Model downloaded successfully!")
+                
+                # Load the model from the downloaded file
+                loaded_model = load_model(file_path)
+                print("Model loaded successfully from downloaded file.")
+                return loaded_model
+            
+            except Exception as e:
+                print(f"Error loading Keras model: {e}")
+                return None
+    
+    # def load_keras_model(url, file_path):
+    #     """Downloads the model from a AWS bucket URL and loads it."""
+    #     if os.path.exists(file_path):
+    #         try:
+    #             # Load the saved model
+    #             loaded_model = load_model(file_path)
+    #             print("Model loaded successfully!")
+    #             return loaded_model
+    #         except Exception as e:
+    #             print(f"Error loading Keras model from file: {e}")
+    #             return None
+    #     else:
+    #         try:
+    #             # Download the model from AWS bucket
+    #             response = requests.get(url)
+    #             response.raise_for_status()  # Raise an error for bad responses
+    #             print("Response status code:", response.status_code)  # Log the status code
+                
+    #             # Save the model to the file path
+    #             with open(file_path, 'wb') as f:
+    #                 f.write(response.content)
+    #             print("Model downloaded successfully!")
+                
+    #             # Load the saved model
+    #             loaded_model = load_model(file_path)
+    #             print("Model loaded successfully!")
+    #             return loaded_model
+            
+    #         except Exception as e:
+    #             print(f"Error loading Keras model: {e}")
+    #             return None
 
     # Cache Lime explainer
     @st.cache_resource
-    def load_lime_explainer():
+    def load_lime_explainer(random_state=42):
         """
         Load LimeImageExplainer
         """
-        explainer = lime_image.LimeImageExplainer(random_state=42)
+        explainer = lime_image.LimeImageExplainer(random_state=random_state)
         return explainer
 
     # Load classifier
@@ -54,18 +95,13 @@ def brain_classification_app():
     file_path = "op_model1_aug.keras"
 
     aug_model = load_keras_model(url, file_path)
-
+    #print(type(aug_model))
     # Check if the model was loaded successfully
-    if aug_model:
+    if aug_model is not None:
         print("Keras model loaded successfully!")
     else:
-        print("Failed to load Keras model.")
+        print("Failed to load Keras model. Check the model loading function and the file path.")
 
-    # Define Class Names
-    # with open('labels.txt', 'r') as f:
-    #     class_names = [a[:-1].split(' ') for a in f.readlines()]
-    #     f.close()
-    # Define Class Names
     class_names = [
         "glioma",
         "meningioma",
@@ -162,78 +198,6 @@ def brain_classification_app():
                 # Display the figure directly using Streamlit
                 st.pyplot(fig)
                 
-                # Save the figure as html
-                # diagnostic_fig = 'diagnostic.png'
-                # fig.savefig(diagnostic_fig)    
-                
-                # # Save the figure as bytes in memory
-                # buf = io.BytesIO()
-                # fig.savefig(buf, format='jpeg')
-                # buf.seek(0)
-                
-                # # Display heatmap using Streamlit
-                # st.image(buf, caption='Lime Diagnostic', use_column_width=True)
-                
-                # # Close the file object and clear the BytesIO buffer
-                # buf.close()
-                # del buf
-                # # Display mask and image in column 2
-                # with col_1:
-                #     # Display Lime Mask using matplotlib
-                #     plt.figure(figsize=(8, 6), facecolor='white')
-                #     plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-                #     plt.title("Concerning Area", fontsize=20)
-                #     plt.axis("off")
-                #     plt.tight_layout()
-                #     plt.show()
-
-                #     # Save plot as bytes
-                #     mask_buf = io.BytesIO()
-                #     plt.savefig(mask_buf, format='png')
-                #     mask_buf.seek(0)
-
-                #     # Display mask using Streamlit
-                #     st.image(mask_buf, caption='Lime Explainer Mask. Demonstrates only the concerning area.', use_column_width=True)
-
-                #     # Delete mask_buf object to free up memory
-                #     plt.close()
-                #     del mask_buf
-                    
-                # # Using the same explainer get a heatmap version that explains the areas that contribute most to that decision
-                # # Select the top label
-                # with col_2:
-                #     # Select the top label
-                #     ind = explanation.top_labels[0]
-            
-                #     # Map each explanation weight to the corressponding superpixel
-                #     dict_heatmap = dict(explanation.local_exp[ind])
-                #     heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
-
-                #     # Display heatmap 
-                #     # Display normalized heatmap with colorbar
-                #     plt.figure(figsize=(8,6), facecolor='white')
-                #     plt.imshow(heatmap, cmap='RdBu', vmin=-heatmap.max(), vmax=heatmap.max())
-                #     cbar = plt.colorbar()
-                #     cbar.ax.tick_params(labelsize=15)
-                #     plt.title("Blue = More Important; Red = Less Important", fontsize=20)
-                #     plt.axis("off")  # Hide axes
-                #     plt.show()
-                    
-                #     # Save plot as bytes
-                #     buf = io.BytesIO()
-                #     plt.savefig(buf, format='png')
-                #     buf.seek(0)
-
-                #     # Display heatmap using Streamlit
-                #     st.image(buf, caption='Importance Heatmap', use_column_width=True)
-                    
-                #     # Delete buf object to free up memory
-                #     del buf
-            # st.image(mark_boundaries(temp / 2 + 0.5, mask), caption="Lime Explanation", use_column_width=True)
-            # st.image(heatmap)
-            
-            
-
     #### Make a section talking about the model 
 
     # Make Section Header
